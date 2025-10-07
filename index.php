@@ -19,7 +19,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -27,17 +26,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Login </title>
     <link rel="stylesheet" href="css/stilo.css">
-
 </head>
 <body>
     <div class="login-container">
         <h1> Login </h1>
         <p> Confirme as Informações </p>
-        <form action="produc.html" method="get">
+        <form method="post" action="./produc.php">
             <label for="email"> EMAIL</label>
             <input type="email" id="email" name="email" placeholder="hello@reallygreatsite.com" required>
-            <label for="password"> PASSWORD </label>
-            <input type="password" id="password" name="password" placeholder="******" required>
+
+            <label for="senha"> PASSWORD </label>
+            <input type="password" id="senha" name="senha" placeholder="******" required>
+
             <button type="submit"> Login </button>
         </form>
     </div>
