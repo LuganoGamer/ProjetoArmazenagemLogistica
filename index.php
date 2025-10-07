@@ -1,3 +1,25 @@
+<?php
+session_start();
+$conn = new mysqli("localhost","root","","estoqueApp");
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $email = $_POST["email"];
+    $senha = $_POST["senha"];
+
+    $sql = "SELECT * FROM usuarios WHERE email='$email' AND senha='$senha'";
+    $result = $conn->query($sql);
+
+    if($result->num_rows > 0){
+        $_SESSION["usuario"] = $email;
+        header("Location: produc.php");
+        exit;
+    }else{
+        echo "<p style='color:red;'>Login inválido!</p>";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
