@@ -36,14 +36,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
     <img src="argamassa.png" alt="Argamassa">
     <h2><?php echo $produto["nome"]; ?></h2>
-    <p> Quantidade: <?php echo $produto["quantidade"]; ?></p>
+    <p> Quantidade em estoque: <?php echo $produto["quantidade"]; ?></p>
 
-    <div>
-        <input type="number" placeholder="Quantidade">
-        <button class="btn"> Adicionar ao Carrinho </button>
-        <button class="btn"> Comprar </button>
-    </div>
-
+    <form method="POST">
+        <input type="number" name="quantidade" placeholder="Quantidade" min="1" required>
+        <button type="submit"> Adicionar ao Carrinho (Saída)</button>
+    </form>
+    
     <a href="produc.php"><button class="btn"> Voltar </button></a>
 </body>
 </html>
