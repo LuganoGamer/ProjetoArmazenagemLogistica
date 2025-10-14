@@ -13,14 +13,31 @@ $produto = $result->fetch_assoc();
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $qtd = (int)$_POST["quantidade"];
-    if($qtd > 0 && $qtd <= $produto["quantidade"]){
-        $novoEstoque = $produto["quantidade"] - $qtd;
-        $conn->query("UPDATE produtos SET quantidade=$novoEstoque WHERE id=$id");
-        $conn->query("INSERT INTO movimentacoes (produto_id, quantidade, tipo) VALUES ($id, $qtd, 'saida')");
-        header("Location: produc.php");
-        exit;
-    } else{
-        echo "<p style='color:red;'>Quantidade inválida!</p>";
+
+    if(isset($_POST["saida"])){ 
+        // --- SAÍDA ---
+        if($qtd > 0 && $qtd <= $produto["quantidade"]){
+            $novoEstoque = $produto["quantidade"] - $qtd;
+            $conn->query("UPDATE produtos SET quantidade=$novoEstoque WHERE id=$id");
+            $conn->query("INSERT INTO movimentacoes (produto_id, quantidade, tipo) VALUES ($id, $qtd, 'saida')");
+            header("Location: produc.php");
+            exit;
+        } else {
+            echo "<p style='color:red;'>Quantidade inválida para saída!</p>";
+        }
+    }
+
+    if(isset($_POST["entrada"])){ 
+        // --- ENTRADA ---
+        if($qtd > 0){
+            $novoEstoque = $produto["quantidade"] + $qtd;
+            $conn->query("UPDATE produtos SET quantidade=$novoEstoque WHERE id=$id");
+            $conn->query("INSERT INTO movimentacoes (produto_id, quantidade, tipo) VALUES ($id, $qtd, 'entrada')");
+            header("Location: produc.php");
+            exit;
+        } else {
+            echo "<p style='color:red;'>Quantidade inválida para entrada!</p>";
+        }
     }
 }
 ?>
@@ -30,19 +47,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $produto["nome"]; ?>  </title>
+    <title><?php echo $produto["nome"]; ?></title>
     <link rel="stylesheet" href="css/stiloProcArgamassa.css">
 </head>
 <body>
     <img src="argamassa.png" alt="Argamassa">
     <h2><?php echo $produto["nome"]; ?></h2>
-    <p> Quantidade em estoque: <?php echo $produto["quantidade"]; ?></p>
+    <p>Quantidade em estoque: <?php echo $produto["quantidade"]; ?></p>
 
     <form method="POST">
         <input type="number" name="quantidade" placeholder="Quantidade" min="1" required>
-        <button type="submit"> Adicionar ao Carrinho (Saída)</button>
+        <button type="submit" name="saida">Adicionar ao Carrinho (Saída)</button>
+        <button type="submit" name="entrada">Comprar (Entrada)</button>
     </form>
     
-    <a href="produc.php"><button class="btn"> Voltar </button></a>
+    <a href="produc.php"><button type="button" class="btn">Voltar</button></a>
 </body>
 </html>
